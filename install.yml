@@ -23,7 +23,9 @@
   tasks:
   - name: Add bloomberg quote source
     get_url:
-      url: 'https://raw.githubusercontent.com/alex314159/PerlFinanceQuoteBloomberg/master/Bloomberg.pm'
+      # TODO get bloomberg from my fork until PR#1 is accepted upstream
+      #url: 'https://raw.githubusercontent.com/alex314159/PerlFinanceQuoteBloomberg/master/Bloomberg.pm'
+      url: 'https://raw.githubusercontent.com/tomason/PerlFinanceQuoteBloomberg/patch-1/Bloomberg.pm'
       dest: '{{ finance_quote_path }}/Bloomberg.pm'
       force: yes
 
