@@ -29,15 +29,16 @@
       dest: '{{ finance_quote_path }}/Bloomberg.pm'
       force: yes
 
-  - name: Add Pioneer Investments quote source
-    copy: src=PioneerInvestments.pm dest='{{ finance_quote_path }}/PioneerInvestments.pm'
+  - name: Add custom quote sources
+    copy: src={{ item }}.pm dest='{{ finance_quote_path }}/{{ item }}.pm'
+    with_items:
+    - PioneerInvestments
 
-  # TODO add any other custom sources
 
   - name: Configure Finance::Quote to include custom modules by default
     lineinfile:
       dest: '{{ finance_quote_path }}.pm'
       line: "  push(@modules, qw/Bloomberg PioneerInvestments/ );"
-      insertbefore: '$this->_load_modules(@modules,@reqmodules);'
-      regexp: '^  push(@modules, .* );$'
+      insertbefore: '\$this->_load_modules\(@modules,@reqmodules\);'
+      regexp: '^  push\(@modules, qw/[^/]*/ \);$'
       state: present
