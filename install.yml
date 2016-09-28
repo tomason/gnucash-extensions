@@ -33,12 +33,13 @@
     copy: src={{ item }}.pm dest='{{ finance_quote_path }}/{{ item }}.pm'
     with_items:
     - PioneerInvestments
+    - AXA
 
 
   - name: Configure Finance::Quote to include custom modules by default
     lineinfile:
       dest: '{{ finance_quote_path }}.pm'
-      line: "  push(@modules, qw/Bloomberg PioneerInvestments/ );"
+      line: "  push(@modules, qw/AXA Bloomberg PioneerInvestments/ );"
       insertbefore: '\$this->_load_modules\(@modules,@reqmodules\);'
       regexp: '^  push\(@modules, qw/[^/]*/ \);$'
       state: present
