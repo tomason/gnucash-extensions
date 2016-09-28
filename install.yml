@@ -21,7 +21,7 @@
     changed_when: no
 
   tasks:
-  - name: Add bloomberg quote source
+  - name: Add Bloomberg quote source
     get_url:
       # TODO get bloomberg from my fork until PR#1 is accepted upstream
       #url: 'https://raw.githubusercontent.com/alex314159/PerlFinanceQuoteBloomberg/master/Bloomberg.pm'
@@ -29,12 +29,15 @@
       dest: '{{ finance_quote_path }}/Bloomberg.pm'
       force: yes
 
+  - name: Add Pioneer Investments quote source
+    copy: src=PioneerInvestments.pm dest='{{ finance_quote_path }}/PioneerInvestments.pm'
+
   # TODO add any other custom sources
 
-  - name: Configure Finance::Quote to include Bloomberg by default
+  - name: Configure Finance::Quote to include custom modules by default
     lineinfile:
       dest: '{{ finance_quote_path }}.pm'
-      line: '\1Bloomberg \2'
-      regexp: '^([ ]*@modules = qw/)(((?!Bloomberg).)*)$'
+      line: "  push(@modules, qw/Bloomberg PioneerInvestments/ );"
+      insertbefore: '$this->_load_modules(@modules,@reqmodules);'
+      regexp: '^  push(@modules, .* );$'
       state: present
-      backrefs: yes
