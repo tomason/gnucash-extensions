@@ -74,7 +74,7 @@ sub pioneer {
     my $tree = HTML::TreeBuilder -> new_from_content($reply->content);
     my @price_array = $tree -> look_down(_tag=>'span',class=>'value') -> look_down(_tag => 'span');
     # first the date
-    my $date = @price_array[1] -> as_text =~ s/(\d+)\.(\d+)\.(\d+):/\3-\2-\1/r;
+    my $date = @price_array[1] -> as_text =~ s/(\d+)\.[ ]?(\d+)\.[ ]?(\d+):/\3-\2-\1/r;
     # then the price
     my $price = @price_array[2] -> as_text =~ s/(\d+),(\d+) CZK/\1.\2/r;
 
